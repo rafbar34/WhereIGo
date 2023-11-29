@@ -9,12 +9,14 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@clerk/nextjs": "^4.27.2",
     "next": "14.0.3",
     "react": "^18",
     "react-dom": "^18"
   },
   "devDependencies": {
     "@tailwind/typography": "file:.5.10",
+    "@tailwindcss/typography": "^0.5.10",
     "@types/node": "^20",
     "@types/react": "^18",
     "@types/react-dom": "^18",
