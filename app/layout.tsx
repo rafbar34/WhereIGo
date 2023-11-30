@@ -18,13 +18,13 @@ export default function RootLayout({
 }) {
   return (
     <ClerkProvider>
-      <Providers>
-        <html
-          lang="en"
-          data-theme="halloween">
-          <body className={inter.className}>{children}</body>
-        </html>
-      </Providers>
+      <html
+        lang="en"
+        data-theme="halloween">
+        <body className={inter.className}>
+          <Providers>{children} </Providers>
+        </body>
+      </html>
     </ClerkProvider>
   );
 }

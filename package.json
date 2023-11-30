@@ -10,10 +10,12 @@
   },
   "dependencies": {
     "@clerk/nextjs": "^4.27.2",
+    "@tanstack/react-query-devtools": "^5.10.0",
     "next": "14.0.3",
     "react": "^18",
     "react-dom": "^18",
-    "react-hot-toast": "^2.4.1"
+    "react-hot-toast": "^2.4.1",
+    "react-query": "^3.39.3"
   },
   "devDependencies": {
     "@tailwind/typography": "file:.5.10",

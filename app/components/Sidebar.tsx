@@ -12,7 +12,7 @@ const Sidebar = async ({ children }: { children: React.ReactNode }) => {
         <SidebarHeader />
         <NavLinks />
       </div>
-      <div className="px-10 py-12">{children}</div>
+      <div className="px-10 py-12 w-full">{children}</div>
     </div>
   );
 };
