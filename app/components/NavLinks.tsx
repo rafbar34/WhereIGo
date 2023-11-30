@@ -9,7 +9,7 @@ const NavLinks = () => {
         <Link href={"/chat"}>Chat</Link>
       </li>
       <li>
-        <Link href={"/new-tour"}>New Tour</Link>
+        <Link href={"/tours/new-tour"}>New Tour</Link>
       </li>
       <li>
         <Link href={"/tours"}>Tours</Link>
