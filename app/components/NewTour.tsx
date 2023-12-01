@@ -44,14 +44,14 @@ const NewTour = () => {
         <div className="join w-full">
           <input
             type="text"
-            className="input input-bordered join-item w-full"
+            className="input input-bordered join-item w-full px-2"
             placeholder="city"
             required
             name="city"
           />
           <input
             type="text"
-            className="country"
+            className="country px-2"
             name="country"
             placeholder="country"
             required
@@ -67,29 +67,35 @@ const NewTour = () => {
         <div
           style={{ background: `linear-gradient(${tour.tour.colors})` }}
           className="mt-16 bg-base-200 gap-6 py-6 px-4 rounded-lg">
-          <div>
-            <h1
-              style={{ color: "white" }}
-              className="text-4xl">
-              {tour?.tour?.city}
-            </h1>
-          </div>
-          <div style={{ color: "white" }}>{tour?.tour?.country}</div>
-          <div
-            style={{
-              color: "white",
-            }}>
-            {tour?.tour?.description}
-          </div>
-          <div
-            style={{
-              color: "white",
-            }}>
-            Places to worth visit:
-            <br />
-            {tour?.tour?.places.map((place, index) => (
-              <div key={index}>{place}</div>
-            ))}
+          <div className="card-body glass shadow-xl backdrop-blur-xl bg-black/20 rounded-md gap-3">
+              <div className="text-4xl" style={{ color: "white" }}>{tour?.tour?.country}</div>
+
+              <h1
+                style={{ color: "white" }}
+                className="text-3xl">
+                {tour?.tour?.city}
+              </h1>
+       
+            <div
+            className="mt-4 text-xl"
+              style={{
+                color: "white",
+              }}>
+              {tour?.tour?.description}
+            </div>
+            <div
+              style={{
+                color: "white",
+              }}>
+                <div className="mt-4 text-2xl">
+
+              Places to worth visit:
+                </div>
+              <br />
+              {tour?.tour?.places.map((place, index) => (
+                <div className="mt-1" key={index}>{place}</div>
+              ))}
+            </div>
           </div>
         </div>
       )}

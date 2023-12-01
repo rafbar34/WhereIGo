@@ -53,10 +53,9 @@ with no additional characters`;
       temperature: 0,
     });
     const tourData = JSON.parse(response.choices[0].message.content);
-    if (!tourData.tour || !tourData.tour.places) {
+    if (!tourData.tour) {
       return null;
     }
-    tourData.tour.colors.reverse();
     return tourData;
   } catch (e) {
     console.log(error);
