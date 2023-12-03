@@ -1,28 +1,35 @@
 "use client";
 import {
+  createNewTour,
   generateChatResponse,
   getExistingTour,
   getTourResponse,
 } from "@/utils/action";
 import React, { useState } from "react";
 import toast from "react-hot-toast";
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 
 const NewTour = () => {
+  const queryClient = useQueryClient();
   const [tour, setTour] = useState({});
-  const { mutate, isPending } = useMutation({
+  const { mutate, isPending, isError } = useMutation({
     mutationFn: async (direction) => {
-      const newTour = await getTourResponse(direction);
-      if (newTour) {
-        setTour(newTour);
-        return newTour;
+      const isExistingTour = await getExistingTour(direction);
+      if (isExistingTour) {
+        setTour({ tour: { ...isExistingTour } });
+        return isExistingTour;
       } else {
-        toast.error("We not found city");
-        return null;
+        const newTour = await getTourResponse(direction);
+        if (newTour) {
+          await createNewTour(newTour.tour);
+          setTour(newTour);
+          queryClient.invalidateQueries({ queryKey: ["tours"] });
+          return newTour;
+        } else {
+          toast.error("We not found city");
+          return null;
+        }
       }
-    },
-    onSuccess(data) {
-      setTour(data);
     },
   });
   const handleSubmit = async (e) => {
@@ -31,10 +38,13 @@ const NewTour = () => {
     const direction = Object.fromEntries(formData.entries());
     const res = await mutate(direction);
   };
+  if (isError) {
+    console.log(isError);
+    return <span className="text-4xl">Error</span>;
+  }
   if (isPending) {
     return <span className="loading loading-ball"></span>;
   }
-  console.log(tour);
   return (
     <>
       <form
@@ -68,16 +78,20 @@ const NewTour = () => {
           style={{ background: `linear-gradient(${tour.tour.colors})` }}
           className="mt-16 bg-base-200 gap-6 py-6 px-4 rounded-lg">
           <div className="card-body glass shadow-xl backdrop-blur-xl bg-black/20 rounded-md gap-3">
-              <div className="text-4xl" style={{ color: "white" }}>{tour?.tour?.country}</div>
-
-              <h1
-                style={{ color: "white" }}
-                className="text-3xl">
-                {tour?.tour?.city}
-              </h1>
-       
             <div
-            className="mt-4 text-xl"
+              className="text-4xl"
+              style={{ color: "white" }}>
+              {tour?.tour?.country}
+            </div>
+
+            <h1
+              style={{ color: "white" }}
+              className="text-3xl">
+              {tour?.tour?.city}
+            </h1>
+
+            <div
+              className="mt-4 text-xl"
               style={{
                 color: "white",
               }}>
@@ -87,13 +101,14 @@ const NewTour = () => {
               style={{
                 color: "white",
               }}>
-                <div className="mt-4 text-2xl">
-
-              Places to worth visit:
-                </div>
+              <div className="mt-4 text-2xl">Places to worth visit:</div>
               <br />
               {tour?.tour?.places.map((place, index) => (
-                <div className="mt-1" key={index}>{place}</div>
+                <div
+                  className="mt-1"
+                  key={index}>
+                  {place}
+                </div>
               ))}
             </div>
           </div>

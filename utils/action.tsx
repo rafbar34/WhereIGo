@@ -1,5 +1,7 @@
 "use server";
 import OpenAi from "openai";
+import { PrismaClient } from "@prisma/client";
+import prisma from "./db";
 type DirectionType = {
   city: string;
   country: string;
@@ -25,8 +27,21 @@ export const generateChatResponse = async (chatMessages) => {
 };
 
 export const getExistingTour = async ({ city, country }: DirectionType) => {
-  return null;
+  return prisma.tour.findUnique({
+    where: {
+      city_country: {
+        city,
+        country,
+      },
+    },
+  });
 };
+export const createNewTour = async (tour) => {
+  return prisma.tour.create({
+    data: tour,
+  });
+};
+
 export const getTourResponse = async ({ city, country }: DirectionType) => {
   try {
     const query = `find short information about city ${city} in ${country}. Give me place who worth visit. Please give back information in Json format 
@@ -62,6 +77,27 @@ with no additional characters`;
     return null;
   }
 };
-export const createNewTour = async (tour) => {
-  return null;
+
+export const getAllData = async (search) => {
+  if (!search) {
+    const data = await prisma.tour.findMany({});
+    return data;
+  }
+  return await prisma.tour.findMany({
+    where: {
+      OR: [
+        {
+          city: {
+            contains: search,
+          },
+        },
+        {
+          country: {
+            contains: search,
+          },
+        },
+      ],
+    },
+    orderBy: {},
+  });
 };
