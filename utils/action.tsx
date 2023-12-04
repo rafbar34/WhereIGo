@@ -78,7 +78,7 @@ with no additional characters`;
   }
 };
 
-export const getAllData = async (search) => {
+export const getAllData = async (search = null) => {
   if (!search) {
     const data = await prisma.tour.findMany({});
     return data;
@@ -100,4 +100,8 @@ export const getAllData = async (search) => {
     },
     orderBy: {},
   });
+};
+
+export const getSingleTour = async (id) => {
+  return prisma.tour.findUnique({ where: { id } });
 };
